@@ -1,0 +1,42 @@
+Pull up modstand på SPI bus CS. 
+- Støj mellem enheder, når IMU'er benyttes.
+- Find tommelfinger regler HW SPI 
+
+Hardware 
+- Feedback DAC: 5k/10k swap (software update) 
+- DAC kanaler kan sættes op i stigende rækkefølge. 
+- DAC_2 DOUT 10k modstand til GND. 
+- DAC_1 og DAC_2 UPO 10k modstand til GND?  
+- ADCs DNC (pin35) Pulldown 10k modstand til GND 
+- ADC_2 pin 12, 14, 25 og 27 til GND 
+- Fjern 5 V step up og brug 5 V regulator fra 12 V forsyning 
+- Instrumentation Amplifier sEMG: Sørg for at baner til +- (input) på operationforstærker er balanceret!
+- Power FET til at slukke for kresen, når eletronik er i Ideal State (Vil reducere strømforbrug med ~50 %)
+
+- Fine tune 50 Hz notch filter (lige nu er notch ved 52 Hz).
+	* Er meget følsom ift. komponent valg (E96 1% minimum - X7R 5% hvis muligt)!! 
+          970nF findes ikke, men er en kritisk komponent -> parallel kobel 820nF||120nF
+	* Mindsk følsomhed ved skift af feedback 5K / 95K 
+		- Kompromis: højere båndbredde
+	* Symmetrisk opbygning krævet for bedst resultat.
+	* Anbefaler at finde anden løsning til næste version evt IC hvis findes.. (UAF42,) 
+	* Digital implementering..
+
+- EMG filter kres. Brug Keramik/Film kondensator (C0G/NP0 eller X7R)
+- Instrumentation Amplifier: 300 ohm skal være 300k ohm
+- Instrumentation Amplifier: 100pF kan skiftes ud med 200pF (low pass filter: 100pF and 20k -> ~140kHz low pass )
+
+Capacitive response from DAC going from abritrary value ([0 < V <= 5]) to zero 
+- This only apear when setting the DAC channel to zero. Check on an oscilloscope
+
+
+
+
+
+################################################################################
+################################################################################
+
+Hardware Debugging 
+- Short +- eletrodes on EMG and see output, 
+- Short +- test common mode input and response of EMG,
+- Get INA141 from Jan if possible and see if there is a difference, 

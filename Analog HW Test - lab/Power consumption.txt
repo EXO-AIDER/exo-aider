@@ -1,0 +1,13 @@
+Power consumption at 3.8 V
+
+- ESP32 (Ideal): Avg ~ 85 mA (Fluke 175 / AAU: C2-104-A4)
+- ESP32 (Task All): Avg ~ 163 mA (Fluke 175 / AAU: C2-104-A4)
+
+
+- ESP32 + Digital PCB (Ideal): Avg ~ 139 (Fluke 175 / AAU: C2-104-A4)
+- ESP32 + Digital PCB (Task: All): Avg ~ 219 (Fluke 175 / AAU: C2-104-A4)
+
+
+- ESP32 + Digital PCB + EMG (2 channel) (Ideal): Avg ~ 162 (Fluke 175 / AAU: C2-104-A4)
+- ESP32 + Digital PCB + EMG (2 channel) (Task: All): Avg ~ 244 (Fluke 175 / AAU: C2-104-A4)
+
