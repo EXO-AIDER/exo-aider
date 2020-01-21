@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "BluetoothSerial.h" 
 #include "TaskBT2.h"
+#include <chrono> // used to time loop
 
 
 #define CS_IMU1 15
@@ -20,7 +21,7 @@ void setup() {
 
   pinMode (LED_BUILTIN, OUTPUT); //Specify LED pin as output
 
-  Serial.begin(9600); //Start Serial monitor in 9600
+  Serial.begin(230400); //Start Serial monitor in 9600
   Serial.println("");
 
   Task.BeginIMU();     // Initiate IMU
@@ -50,6 +51,7 @@ void setup() {
 
 
 void loop() {
+  auto t1 = std::chrono::high_resolution_clock::now(); // timing start
   
   while(ESP_BT.hasClient() == false){digitalWrite(LED_BUILTIN, LOW);} // Check for client, if non, wait 
   digitalWrite(LED_BUILTIN, HIGH);
@@ -64,6 +66,13 @@ void loop() {
     DataBufferBT = Task.GetSensorDataBT();                  // Get task/sensor data
     ESP_BT.write(DataBufferBT.data(), DataBufferBT.size()); // Send data over Bluetooth
   }
+
+
+  // Timing duration and printing
+  auto t2 = std::chrono::high_resolution_clock::now(); // timing end
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count(); // time duration
+  cout << duration << endl;
+  //
 
 }
 
