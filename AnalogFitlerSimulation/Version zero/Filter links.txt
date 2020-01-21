@@ -1,0 +1,12 @@
+Active Twin - T - Notch Filter Calculator
+https://www.changpuak.ch/electronics/Active_Notch_Filter.php?fb_comment_id=386508154796092_752089381571299
+- Center 50 Hz
+- Feedback 95
+- C1, C2 470 nF
+
+
+High pass filter 
+http://sim.okawa-denshi.jp/en/OPseikiHikeisan.htm
+
+Low pass filter 
+http://sim.okawa-denshi.jp/en/OPseikiLowkeisan.htm
