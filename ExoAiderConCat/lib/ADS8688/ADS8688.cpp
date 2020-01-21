@@ -590,14 +590,14 @@ adjustment to cmdRegisterDaisy is needed!
 */
 void ADS8688::cmdRegisterDaisy(uint8_t reg)
 {   
-    unsigned long dummy;
+    // unsigned long dummy;
     byte MSB;
     byte LSB;
     uint16_t SPI_Data;
     _ADC_Buffer_FSR.erase(_ADC_Buffer_FSR.begin(),_ADC_Buffer_FSR.end());    // Empty the ADC FSR buffer
     _ADC_Buffer_EMG.erase(_ADC_Buffer_EMG.begin(),_ADC_Buffer_EMG.end());    // Empty the ADC EMG buffer
 
-    dummy = micros();
+    // dummy = micros();
     SPI.beginTransaction(SPISettings(_sclk, MSBFIRST, SPI_MODE0));           //
     
     for (size_t i = 0; i < _ChannelNmb; i++)
@@ -665,7 +665,7 @@ void ADS8688::cmdRegisterDaisy(uint8_t reg)
         _mode = MODE_MANUAL;
         break;
     }
-    Serial.println(micros() - dummy);
+    // Serial.println(micros() - dummy);  // Sample rate, made by Simon
 }
 
 std::vector<float> ADS8688::ReturnADC_FSR(){
