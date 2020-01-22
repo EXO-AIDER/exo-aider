@@ -10,7 +10,7 @@ if strcmp(TaskName,'IMU')
         x = [DataToFormat(1,k) DataToFormat(2,k) DataToFormat(3,k) DataToFormat(4,k)];
         FormattedData(k) = typecast(x,'single');
     end
-    FormattedData = transpose( reshape(FormattedData,[6, length(FormattedData)/6]) );
+    FormattedData = transpose( reshape(FormattedData,[12, length(FormattedData)/12]) );
 end
 
 %% FSR

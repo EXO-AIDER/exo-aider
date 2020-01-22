@@ -6,7 +6,7 @@ Row = 15*60*1000; % Each row corrosponds to 1 ms
 
 %% IMU
 if strcmp(Task.Properties.VariableNames,'IMU')
-    NameOfVariables = {'AccX1', 'AccY1', 'AccZ1', 'AccX2', 'AccY2', 'AccZ2'};
+    NameOfVariables = {'AccX1', 'AccY1', 'AccZ1', 'GyroX1', 'GyroY1', 'GyroZ1', 'AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2', 'GyroZ2'};
     Column = length(NameOfVariables);
 end
 %% FSR
@@ -23,7 +23,7 @@ end
 if strcmp(Task.Properties.VariableNames,'All')
     NameOfVariables = {'FSR1', 'FSR3', 'FSR4', 'FSR2', 'FSR5', 'FSR7', 'FSR8', 'FSR6',...
                        'EMG1', 'EMG2', 'EMG3', 'EMG4',...
-                       'AccX1', 'AccY1', 'AccZ1', 'AccX2', 'AccY2', 'AccZ2'};
+                       'AccX1', 'AccY1', 'AccZ1', 'GyroX1', 'GyroY1', 'GyroZ1', 'AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2', 'GyroZ2'};
     Column = length(NameOfVariables);
 end
 

@@ -22,7 +22,7 @@ b = EstablishConnectionBT();
 %% Define task implmented on ESP32 and its package size
 % Data is received as four uint8_t reinterpreted from float 
 FSR = 32;                           % Bytes
-IMU = 24;                           % Bytes -> Accleration only
+IMU = 48;                           % Bytes -> Accleration and gyro
 EMG = 16;                           % Bytes
 All = FSR + EMG + IMU;              % Bytes
 
@@ -175,7 +175,7 @@ while(1)
 if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update speed to freq = 1/print200
    
     if strcmp(Task.Properties.VariableNames,'IMU')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.AccX1)); 
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2)); 
     end
    
     if strcmp(Task.Properties.VariableNames,'FSR')

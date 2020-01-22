@@ -89,11 +89,23 @@ void TaskBT2::ExecuteTask(){
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
         float2uint8(_IMU1.getAccelZ_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU1.getGyroX_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU1.getGyroY_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU1.getGyroZ_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
         float2uint8(_IMU2.getAccelX_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
         float2uint8(_IMU2.getAccelY_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
         float2uint8(_IMU2.getAccelZ_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU2.getGyroX_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU2.getGyroY_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+        _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
+        float2uint8(_IMU2.getGyroZ_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
 
         return;

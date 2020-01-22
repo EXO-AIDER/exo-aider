@@ -53,7 +53,7 @@ void setup() {
 
 
 void loop() {  
-  auto t1 = std::chrono::high_resolution_clock::now();  // timing start
+  // auto t1 = std::chrono::high_resolution_clock::now();  // timing start
 
   while(ESP_BT.hasClient() == false){digitalWrite(LED_BUILTIN, LOW);} // Check for client, if non, wait 
   digitalWrite(LED_BUILTIN, HIGH);
@@ -72,17 +72,17 @@ void loop() {
 
 
   // Timing duration and printing
-  auto t2 = std::chrono::high_resolution_clock::now(); // timing end  
-  auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+  // auto t2 = std::chrono::high_resolution_clock::now(); // timing end  
+  // auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
 
-  time_avg += duration;
-
-  if(time_avg_count == 1000){
-    cout << "Sample frequency: " << 1/((time_avg/1000.0)*0.000001) << " Hz" << endl;
-    time_avg_count = 0;
-    time_avg = 0.0;
-  }
-  time_avg_count++;
+  // time_avg += duration;
+ 
+  // if(time_avg_count == 1000){
+  //   cout << "Sample frequency: " << 1/((time_avg/1000.0)*0.000001) << " Hz" << endl;
+  //   time_avg_count = 0;
+  //   time_avg = 0.0;
+  // }
+  // time_avg_count++;
 
 }
 
