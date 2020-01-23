@@ -56,21 +56,7 @@ xlabel('Frquency [Hz]')
 ylabel('Phase [deg]')
 grid
 
-%% All NOT MEASURED, JUST SUMMED%%%
-figure();
-subplot(2,1,1)
-semilogx(notch.Freq, notch.Amplitude+LP.Amplitude+HP.Amplitude+diff.Amplitude);
-title('Sum of all filters, 10-1 kHz, @1 V')
-xlabel('Frequency [Hz]')
-ylabel('Magnitude [dB]')
-ylim([-81 50])
-grid
 
-subplot(2,1,2)
-semilogx(notch.Freq, notch.Phase+LP.Phase+HP.Phase+diff.Phase);
-xlabel('Frquency [Hz]')
-ylabel('Phase [deg]')
-grid
 
 %% Diff amp %%%
 diff = readtable('DIFF_swept_sine_10_1k_100mV', 'HeaderLines', 8);
@@ -90,6 +76,21 @@ xlabel('Frquency [Hz]')
 ylabel('Phase [deg]')
 grid
 
+%% All NOT MEASURED, JUST SUMMED%%%
+figure();
+subplot(2,1,1)
+semilogx(notch.Freq, notch.Amplitude+LP.Amplitude+HP.Amplitude+diff.Amplitude);
+title('Sum of all filters, 10-1 kHz, @1 V')
+xlabel('Frequency [Hz]')
+ylabel('Magnitude [dB]')
+ylim([-81 50])
+grid
+
+subplot(2,1,2)
+semilogx(notch.Freq, notch.Phase+LP.Phase+HP.Phase+diff.Phase);
+xlabel('Frquency [Hz]')
+ylabel('Phase [deg]')
+grid
 %% Full system %%%
 full = readtable('Full_system_swept_sine_10_1k_1V', 'HeaderLines', 8);
 

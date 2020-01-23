@@ -40,7 +40,7 @@ end
 %% All
 % Samples FSR, EMG and IMU data float[FSR[8], EMG[4], IMU[6]]
 if strcmp(TaskName,'All')
-    DataToFormat = uint8(reshape(DataToFormat,[72,length(DataToFormat)/72])); % 72 bytes for a full data frame
+    DataToFormat = uint8(reshape(DataToFormat,[96,length(DataToFormat)/96])); % 96 bytes for a full data frame
     
     [~, n] = size(DataToFormat); % [[FSR[8], EMG[4], IMU[6]] ,Dataframes]
     FormattedData = zeros(n,18); % [Dataframes, FSR+EMG+IMU]
@@ -54,7 +54,7 @@ if strcmp(TaskName,'All')
     EMG = reshape(EMG,[4,length(EMG)/4]);
     EMGData = zeros(length(EMG),1);
     
-    IMU = reshape(DataToFormat(49:72,:),[numel(DataToFormat(49:72,:)), 1]);
+    IMU = reshape(DataToFormat(49:96,:),[numel(DataToFormat(49:96,:)), 1]);
     IMU = reshape(IMU,[4,length(IMU)/4]);
     IMUData = zeros(length(IMU),1);
     
@@ -75,7 +75,7 @@ if strcmp(TaskName,'All')
     
     FormattedData(:,1:8)    = transpose( reshape(FSRData,[8, length(FSRData)/8]));
     FormattedData(:,9:12)   = transpose( reshape(EMGData,[4, length(EMGData)/4]));
-    FormattedData(:,13:18)  = transpose( reshape(IMUData,[6, length(IMUData)/6]));
+    FormattedData(:,13:24)  = transpose( reshape(IMUData,[12, length(IMUData)/12]));
 
     
 end

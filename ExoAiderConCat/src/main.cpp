@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include "BluetoothSerial.h" 
 #include "TaskBT2.h"
-#include <chrono> // used to time loop
-int time_avg_count = 0;
-double time_avg = 0.0;
 
 #define CS_IMU1 15
 #define CS_IMU2 33
@@ -14,6 +11,9 @@ BluetoothSerial ESP_BT; //Object for Bluetooth
 TaskBT2 Task(CS_IMU1, CS_IMU2, CS_DAC, CS_ADC);   // pins for IMUs
 std::vector<uint8_t> DataBufferBT;
 
+int time_avg_count = 0;
+double time_avg = 0.0;
+
 unsigned long dummy1, dummy2;
 
 float SetVoltage = 0;
@@ -22,7 +22,7 @@ void setup() {
 
   pinMode (LED_BUILTIN, OUTPUT); //Specify LED pin as output
 
-  Serial.begin(230400); //Start Serial monitor in 9600
+  Serial.begin(115200); //Start Serial monitor in 9600
   Serial.println("");
 
   Task.BeginIMU();     // Initiate IMU
@@ -53,7 +53,7 @@ void setup() {
 
 
 void loop() {  
-  // auto t1 = std::chrono::high_resolution_clock::now();  // timing start
+  auto start = micros(); // start timer
 
   while(ESP_BT.hasClient() == false){digitalWrite(LED_BUILTIN, LOW);} // Check for client, if non, wait 
   digitalWrite(LED_BUILTIN, HIGH);
@@ -71,18 +71,17 @@ void loop() {
   }
 
 
+  
   // Timing duration and printing
-  // auto t2 = std::chrono::high_resolution_clock::now(); // timing end  
-  // auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+  /* auto end = micros() - start;
 
-  // time_avg += duration;
- 
-  // if(time_avg_count == 1000){
-  //   cout << "Sample frequency: " << 1/((time_avg/1000.0)*0.000001) << " Hz" << endl;
-  //   time_avg_count = 0;
-  //   time_avg = 0.0;
-  // }
-  // time_avg_count++;
+  time_avg += end;
+  if(time_avg_count == 1000){
+    cout << "Sample frequency: " << 1/((time_avg * 1e-6)/1000.0) << " Hz" << endl;
+    time_avg_count = 0;
+    time_avg = 0.0;
+  }
+  time_avg_count++; */
 
 }
 

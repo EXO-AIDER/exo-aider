@@ -175,7 +175,7 @@ while(1)
 if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update speed to freq = 1/print200
    
     if strcmp(Task.Properties.VariableNames,'IMU')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2)); 
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroZ2)); 
     end
    
     if strcmp(Task.Properties.VariableNames,'FSR')
@@ -183,13 +183,13 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'EMG')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG4));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG2));
         % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR7)); 
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.AccX1));
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
     end
     
    
