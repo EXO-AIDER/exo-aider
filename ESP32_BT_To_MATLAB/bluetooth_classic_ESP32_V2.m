@@ -187,9 +187,9 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG2));
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
         % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR7)); 
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
     end
     
    
@@ -210,5 +210,5 @@ DataTable = getTable(Task,Data);
 RawDataBT = package(1:PackagesReceived);
 
 %% Plot
-plot(BufferTest(1:TimeCounter))
-title('Buffer usage over time')
+% plot(BufferTest(1:TimeCounter))
+% title('Buffer usage over time')

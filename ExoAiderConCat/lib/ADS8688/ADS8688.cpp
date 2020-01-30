@@ -601,11 +601,11 @@ void ADS8688::cmdRegisterDaisy(uint8_t reg)
     SPI.beginTransaction(SPISettings(_sclk, MSBFIRST, SPI_MODE0));           //
     
     for (size_t i = 0; i < _ChannelNmb; i++)
-    {
-        
+    {        
         digitalWrite(_cs, LOW);
         SPI.transfer(reg);
         SPI.transfer(0x00);
+        
         
         if (_mode > 4)
         {
@@ -623,11 +623,11 @@ void ADS8688::cmdRegisterDaisy(uint8_t reg)
             _ADC_Buffer_FSR.push_back(I2V(SPI_Data, _GlobalRange));
         }
         
-        
         digitalWrite(_cs, HIGH);
     }
 
     SPI.endTransaction();
+
 
     // when exit power down it takes 15 ms to be operationnal
     if (_mode == MODE_POWER_DN)

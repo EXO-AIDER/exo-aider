@@ -53,7 +53,7 @@ void setup() {
 
 
 void loop() {  
-  auto start = micros(); // start timer
+  // auto start = micros();
 
   while(ESP_BT.hasClient() == false){digitalWrite(LED_BUILTIN, LOW);} // Check for client, if non, wait 
   digitalWrite(LED_BUILTIN, HIGH);
@@ -70,18 +70,7 @@ void loop() {
     
   }
 
-
-  
-  // Timing duration and printing
-  /* auto end = micros() - start;
-
-  time_avg += end;
-  if(time_avg_count == 1000){
-    cout << "Sample frequency: " << 1/((time_avg * 1e-6)/1000.0) << " Hz" << endl;
-    time_avg_count = 0;
-    time_avg = 0.0;
-  }
-  time_avg_count++; */
+  // cout << "Sample frequency: " << 1/((micros() - start)*1e-6) << " Hz" << endl;
 
 }
 

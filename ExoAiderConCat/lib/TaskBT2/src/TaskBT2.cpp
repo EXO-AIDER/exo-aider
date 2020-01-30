@@ -190,6 +190,7 @@ void TaskBT2::ExecuteTask(){
         float2uint8(_IMU2.getGyroZ_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
         _DataBufferBT.insert(_DataBufferBT.end(), _ReinterpretedValue.begin(), _ReinterpretedValue.end());   // Store reinterpreted data in Bluetooth buffer
 
+
         return;
         }
 

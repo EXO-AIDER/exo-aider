@@ -159,7 +159,7 @@
             void writeRegister(uint8_t reg, uint8_t val); // write 8 bit data into a register
             uint8_t readRegister(uint8_t reg);            // read 8 bit data in a specific register
             uint16_t cmdRegister(uint8_t reg);            // send a command register and read
-            uint32_t _sclk = 1000000;                     // sclk frequency 7 MHz
+            uint32_t _sclk = 17000000;                     // sclk frequency 7 MHz
             uint8_t _ChannelNmb = 8;                      // Amount of channels to read 
             uint8_t popcount(uint8_t x);                  // Count selected channels
             std::vector<float> _ADC_Buffer_FSR, _ADC_Buffer_EMG;
