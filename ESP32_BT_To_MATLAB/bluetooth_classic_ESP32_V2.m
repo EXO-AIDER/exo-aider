@@ -187,9 +187,9 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR7)); 
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG2));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR6)); 
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
     end
     
    
@@ -212,3 +212,81 @@ RawDataBT = package(1:PackagesReceived);
 %% Plot
 % plot(BufferTest(1:TimeCounter))
 % title('Buffer usage over time')
+
+figure()
+plot(DataTable.Time, DataTable.EMG1,'DisplayName','EMG1')
+hold on 
+plot(DataTable.Time, DataTable.EMG2,'DisplayName','EMG2')
+hold off
+legend()
+title('sEMG, Biceps')
+xlabel('Time [s]')
+ylabel('Amplitude')
+
+figure()
+plot(DataTable.Time, DataTable.EMG3,'DisplayName','EMG3')
+hold on
+plot(DataTable.Time, DataTable.EMG4,'DisplayName','EMG4')
+hold off
+legend()
+title('sEMG, Triceps')
+xlabel('Time [s]')
+ylabel('Amplitude')
+
+figure()
+plot(DataTable.Time, DataTable.FSR1,'DisplayName','FSR1')
+hold on 
+plot(DataTable.Time, DataTable.FSR2,'DisplayName','FSR2')
+plot(DataTable.Time, DataTable.FSR3,'DisplayName','FSR3')
+plot(DataTable.Time, DataTable.FSR4,'DisplayName','FSR4')
+plot(DataTable.Time, DataTable.FSR5,'DisplayName','FSR5')
+plot(DataTable.Time, DataTable.FSR6,'DisplayName','FSR6')
+plot(DataTable.Time, DataTable.FSR7,'DisplayName','FSR7')
+plot(DataTable.Time, DataTable.FSR8,'DisplayName','FSR8')
+hold off
+legend()
+title('FSR')
+xlabel('Time [s]')
+ylabel('Amplitude')
+
+%% plotting FFT
+
+T = 1/fHz;
+L = length(DataTable.Time);
+f = fHz * (0:(L/2))/L;
+
+% EMG1
+fft_EMG1 = fft(DataTable.EMG1);
+P2_EMG1 = abs(fft_EMG1/L);
+P1_EMG1 = P2_EMG1(1:L/2+1);
+P1_EMG1(2:end-1) = 2*P1_EMG1(2:end-1);
+
+% EMG2
+fft_EMG2 = fft(DataTable.EMG2);
+P2_EMG2 = abs(fft_EMG2/L);
+P1_EMG2 = P2_EMG2(1:L/2+1);
+P1_EMG2(2:end-1) = 2*P1_EMG2(2:end-1);
+
+% EMG3
+fft_EMG3 = fft(DataTable.EMG1);
+P2_EMG3 = abs(fft_EMG3/L);
+P1_EMG3 = P2_EMG3(1:L/2+1);
+P1_EMG3(2:end-1) = 2*P1_EMG3(2:end-1);
+
+% EMG4
+fft_EMG4 = fft(DataTable.EMG1);
+P2_EMG4 = abs(fft_EMG4/L);
+P1_EMG4 = P2_EMG4(1:L/2+1);
+P1_EMG4(2:end-1) = 2*P1_EMG4(2:end-1);
+
+plot(f,P1_EMG1,'DisplayName','EMG1, Biceps') 
+hold on;
+plot(f,P1_EMG2,'DisplayName','EMG2, Biceps') 
+plot(f,P1_EMG3,'DisplayName','EMG3, Triceps') 
+plot(f,P1_EMG4,'DisplayName','EMG4, Triceps')
+hold off
+title('Single-Sided Amplitude Spectrum of X(t)')
+xlabel('f (Hz)')
+ylabel('|P1(f)|')
+legend()
+
