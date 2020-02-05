@@ -11,10 +11,7 @@ BluetoothSerial ESP_BT; //Object for Bluetooth
 TaskBT2 Task(CS_IMU1, CS_IMU2, CS_DAC, CS_ADC);   // pins for IMUs
 std::vector<uint8_t> DataBufferBT;
 
-int time_avg_count = 0;
-double time_avg = 0.0;
-
-unsigned long dummy1, dummy2;
+// unsigned long dummy1, dummy2; // for timing - made by Simon
 
 float SetVoltage = 0;
 

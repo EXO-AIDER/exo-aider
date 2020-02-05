@@ -494,9 +494,9 @@ uint16_t ADS8688::cmdRegister(uint8_t reg)
     digitalWrite(_cs, LOW);
     SPI.transfer(reg);
     SPI.transfer(0x00);
-    SPI.endTransaction();
+    // SPI.endTransaction();
 
-    SPI.beginTransaction(SPISettings(_sclk, MSBFIRST, SPI_MODE0)); // Necessary for ESP32
+    // SPI.beginTransaction(SPISettings(_sclk, MSBFIRST, SPI_MODE0)); // Necessary for ESP32
     int16_t result = 0;
     if (_mode > 4)
     {
