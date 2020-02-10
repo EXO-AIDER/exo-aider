@@ -187,8 +187,8 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG2));
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR6)); 
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG3));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR8)); 
         % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
     end
     
@@ -219,7 +219,7 @@ hold on
 plot(DataTable.Time, DataTable.EMG2,'DisplayName','EMG2')
 hold off
 legend()
-title('sEMG, Biceps')
+title('sEMG, Triceps')
 xlabel('Time [s]')
 ylabel('Amplitude')
 
@@ -229,7 +229,7 @@ hold on
 plot(DataTable.Time, DataTable.EMG4,'DisplayName','EMG4')
 hold off
 legend()
-title('sEMG, Triceps')
+title('sEMG, Biceps')
 xlabel('Time [s]')
 ylabel('Amplitude')
 
@@ -268,22 +268,23 @@ P1_EMG2 = P2_EMG2(1:L/2+1);
 P1_EMG2(2:end-1) = 2*P1_EMG2(2:end-1);
 
 % EMG3
-fft_EMG3 = fft(DataTable.EMG1);
+fft_EMG3 = fft(DataTable.EMG3);
 P2_EMG3 = abs(fft_EMG3/L);
 P1_EMG3 = P2_EMG3(1:L/2+1);
 P1_EMG3(2:end-1) = 2*P1_EMG3(2:end-1);
 
 % EMG4
-fft_EMG4 = fft(DataTable.EMG1);
+fft_EMG4 = fft(DataTable.EMG4);
 P2_EMG4 = abs(fft_EMG4/L);
 P1_EMG4 = P2_EMG4(1:L/2+1);
 P1_EMG4(2:end-1) = 2*P1_EMG4(2:end-1);
 
-plot(f,P1_EMG1,'DisplayName','EMG1, Biceps') 
+figure()
+plot(f,P1_EMG1,'DisplayName','EMG1, Triceps') 
 hold on;
-plot(f,P1_EMG2,'DisplayName','EMG2, Biceps') 
-plot(f,P1_EMG3,'DisplayName','EMG3, Triceps') 
-plot(f,P1_EMG4,'DisplayName','EMG4, Triceps')
+plot(f,P1_EMG2,'DisplayName','EMG2, Triceps') 
+plot(f,P1_EMG3,'DisplayName','EMG3, Biceps') 
+plot(f,P1_EMG4,'DisplayName','EMG4, Biceps')
 hold off
 title('Single-Sided Amplitude Spectrum of X(t)')
 xlabel('f (Hz)')

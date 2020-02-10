@@ -41,7 +41,7 @@ protected:
     SPIClass *_spi;
     uint8_t _csPin;
     bool _useSPI;
-    const uint32_t _SCLK = 17000000;      // 5 MHz
+    const uint32_t _SCLK = 5000000;      // 5 MHz
     
 
 private:
