@@ -56,3 +56,6 @@
 *.pdfsync
 
 master.pdf
+
+## Virtual environments
+venv/
