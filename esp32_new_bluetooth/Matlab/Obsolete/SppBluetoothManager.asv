@@ -1,0 +1,82 @@
+classdef SppBluetoothManager < handle
+    %SPPBLUETOOTHMANAGER Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        bluetooths
+        
+        sample_frequency       
+        send_signals_rate
+        send_signals
+    end
+    
+    properties (Constant)
+        sample_frequency_cmd = ''
+        send_signals_rate_cmd = ''
+        send_signals_cmd = ''
+    end
+    
+    methods
+        function obj = SppBluetoothManager()
+        end
+        
+        function add_spp_bluetooth(obj, name, description)
+            obj.descriptions{end+1} = description;
+            obj.bluetooths(end+1) = SppBluetooth(name);
+        end
+        
+        function send_all(obj, cmd, values)
+            for i = 1:length(obj.bluetooths)
+                if nargin <= 2
+                    obj.bluetooths(i).send(cmd);
+                else
+                    obj.bluetooths(i).send(cmd, values);
+                end
+            end
+        end
+        
+        function q = query_all(obj, cmd, values)
+            n = obj.bluetooths;
+            q = cell(1, n);
+            for i = 1:n
+                if nargin <= 2
+                    q{i} = obj.bluetooths(i).send(cmd);
+                else
+                    q{i} = obj.bluetooths(i).send(cmd, values);
+                end
+            end
+        end
+        
+        function p = ping_all(obj)
+            q = obj.query_all('
+        end
+        
+        % sample_frequency
+        function set.sample_frequency(obj, val)
+           obj.send_all(['set_', obj.sample_frequency_cmd], val);
+        end
+        function val = get.sample_frequency(obj)
+           obj.sample_frequency = obj.query_all(['get_', obj.sample_frequency_cmd]);
+           val = obj.sample_frequency;
+        end
+        
+        % send_signals_rate
+        function set.send_signals_rate(obj, val)
+           obj.send_all(['set_', obj.send_signals_rate_cmd], val);
+        end
+        function val = get.send_signals_rate(obj)
+           obj.sample_frequency = obj.query_all(['get_', obj.send_signals_rate_cmd]);
+           val = obj.sample_frequency;
+        end
+        
+        % send_signals
+        function set.send_signals(obj, val)
+           obj.send_all(['set_', obj.send_signals_rate_cmd], val);
+        end
+        function val = get.send_signals(obj)
+           obj.sample_frequency = obj.query_all(['get_', obj.send_signals_rate_cmd]);
+           val = obj.sample_frequency;
+        end
+    end
+end
+
