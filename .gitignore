@@ -56,5 +56,11 @@
 *.pdfsync
 
 master.pdf
+<<<<<<< HEAD
 
 3D/
+=======
+
+## Virtual environments
+venv/
+>>>>>>> 87e770684ce363496e485b97b1dd6439952de625

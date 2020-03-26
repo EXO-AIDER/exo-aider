@@ -17,7 +17,7 @@ addpath(genpath('Data'));
 b = EstablishConnectionBT();
 
 %% Commands defined on ESP32
-% SendTask(b,'CalibrateFSR'); % Ues this when doing maximum contraction 
+SendTask(b,'CalibrateFSR'); % Ues this when doing maximum contraction 
 
 %% Define task implmented on ESP32 and its package size
 % Data is received as four uint8_t reinterpreted from float 
@@ -187,8 +187,8 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR8)); 
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR8)); 
         % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
     end
     

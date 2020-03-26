@@ -13,7 +13,7 @@ std::vector<uint8_t> DataBufferBT;
 
 // unsigned long dummy1, dummy2; // for timing - made by Simon
 
-float SetVoltage = 0.5;
+float SetVoltage = 0;
 
 void setup() { 
 
@@ -50,7 +50,7 @@ void setup() {
 
 
 void loop() {  
-  auto start = micros();
+  // auto start = micros();
 
   while(ESP_BT.hasClient() == false){digitalWrite(LED_BUILTIN, LOW);} // Check for client, if non, wait 
   digitalWrite(LED_BUILTIN, HIGH);
@@ -67,7 +67,7 @@ void loop() {
     
   }
 
-  cout << "Sample frequency: " << 1/((micros() - start)*1e-6) << " Hz" << endl;
+  // cout << "Sample frequency: " << 1/((micros() - start)*1e-6) << " Hz" << endl;
 
 }
 
