@@ -14,7 +14,7 @@ struct DemoMotorControllerTask : TaskInterface {
     return true;
   }
 
-  bool process_message(const Message &incomming_message, vector<Message> &outgoing_messages){
+  bool process_message(const Message &incomming_message, function<bool(const Message&)> send_message_fun){
     if(incomming_message.is_command("u", 1)) {
       u_next_n = incomming_message.numbers[0]; // No reply!
       return true;
@@ -25,7 +25,7 @@ struct DemoMotorControllerTask : TaskInterface {
       return true;
 
     } else if(incomming_message.is_command("get_u")) {
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)u_next_n}));
+      send_message_fun(Message(incomming_message.command, {(float)u_next_n}));
       return true;
 
     }

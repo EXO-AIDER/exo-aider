@@ -26,7 +26,7 @@ struct DemoSensorBandTask : TaskInterface {
     };
     return true;
   }
-  bool process_message(const Message &incomming_message, vector<Message> &outgoing_messages){
+  bool process_message(const Message &incomming_message, function<bool(const Message&)> send_message_fun){
       return false;
   }
 

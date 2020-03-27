@@ -89,6 +89,7 @@ classdef SppBluetooth < handle
                 obj.restart();
                 pause(1);
                 obj.connect();
+                tmp = obj.board_task_name;
                 assert(strcmp(obj.board_task_name, board_task_name));
             end
             obj.description = obj.get_description;
@@ -137,8 +138,9 @@ classdef SppBluetooth < handle
             else
                 obj.send(command);
             end
+
             t = tic;
-            while toc(t) < obj.b.Timeout 
+            while toc(t) < obj.b.Timeout
                 if 0 < obj.messages_availiable
                     msg = obj.get_next_message;
                     if startsWith(msg.command, command)
@@ -146,8 +148,9 @@ classdef SppBluetooth < handle
                         return
                     end
                 end
-                pause(0.0001);
+                %pause(0.0001);
             end
+            warning([obj.name, ' - Did not get response on command: "', command, '"']);
         end
 
         function read_callback(obj, ~, ~)
@@ -313,24 +316,14 @@ classdef SppBluetooth < handle
             idx = 1 + mod(sample_idx-1, n);
             signal = obj.signal_buffer(idx, signal_idx);
         end
-        
-        function signal = get_playout_signal(obj, sample_idx, signal_idx)
-            
-            minimum_next_signal_playout_n = obj.signal_n - obj.signal_playout_size;
-            obj.signal_playout_n = obj.signal_playout_n + 1;
-            
-            
-            
-            
-        end
-        
-        function signal = get_low_frequency_signals(obj, sample_idx, signal_idx)
-            if nargin < 3 || isempty(signal_idx)
-               signal_idx = 1:obj.signal_low_frequency_length+obj.signal_high_frequency_length; 
-            end
-            ratio = obj.signal_low_frequency_ratio;
-            signal = obj.get_signals(1 + (sample_idx - 1) * ratio, signal_idx);
-        end
+                
+        %function signal = get_low_frequency_signals(obj, sample_idx, signal_idx)
+        %    if nargin < 3 || isempty(signal_idx)
+        %       signal_idx = 1:obj.signal_low_frequency_length+obj.signal_high_frequency_length; 
+        %    end
+        %    ratio = obj.signal_low_frequency_ratio;
+        %    signal = obj.get_signals(1 + (sample_idx - 1) * ratio, signal_idx);
+        %end
     end
     
     %
@@ -372,6 +365,7 @@ classdef SppBluetooth < handle
         function val = get.board_task_name(obj)
            msg = obj.query(obj.board_task_name_get_cmd);
            val = msg.strings{1};
+           val
         end
         
         function set.sample_frequency(obj, val)
@@ -421,6 +415,10 @@ classdef SppBluetooth < handle
             msg = obj.query(obj.task_description_get_cmd);
             description = msg.strings{1};
         end
+        
+        function val = send_frequency(obj)
+           val = obj.sample_frequency / obj.send_signals_ratio;
+        end
     end
     
     %
@@ -446,5 +444,15 @@ classdef SppBluetooth < handle
             end
         end    
     end
+    methods (Static)
+        function list_availiable_bluetooth_devices()
+            disp('Determining availiable bluetooth devices. Please wait..');
+            devices =  instrhwinfo('Bluetooth');
+            disp('Availiable bluetooth devices:');
+            for i = 1:length(devices.RemoteNames)
+               disp([' * ',  devices.RemoteNames{i}]);
+            end
+        end
+    end 
 end
 

@@ -15,7 +15,7 @@ struct DemoTask : TaskInterface {
     return true;
   }
 
-  bool process_message(const Message &incomming_message, vector<Message> &outgoing_messages){
+  bool process_message(const Message &incomming_message, function<bool(const Message&)> send_message_fun){
       // Return true if message is correct.
 
       // Different types of inputs:
@@ -45,7 +45,7 @@ struct DemoTask : TaskInterface {
       }
 
       // Sending a message back:
-      outgoing_messages.push_back(Message(incomming_message.command, {1.0f, 2.0f, 3.0f, 1234.0f}, {"a", "b", "c", "d"}));
+      send_message_fun(Message(incomming_message.command, {1.0f, 2.0f, 3.0f, 1234.0f}, {"a", "b", "c", "d"}));
       return false;
   }
 

@@ -3,6 +3,8 @@
 #include <string>
 #include <Arduino.h>
 
+#include <functional>
+
 #include "helpers/helpers.h"
 #include "SppBluetooth.h"
 #include "tasks/task_list.h"
@@ -10,8 +12,7 @@
 
 SppBluetooth *bluetooth_server = NULL;
 Message incomming_message;
-vector<Message> outgoing_messages;
-Sheduler sheduler;
+Sheduler sheduler(true);
 TaskInterface *active_task = NULL;
 
 float sample_frequency = 1000.0f;
@@ -27,6 +28,7 @@ bool debug_print = false;
 
 void setup() {
   // Open serial port
+  cout << "Version 1" << endl;
   Serial.begin(115200);
   Serial.println("");
   cout << "Initializing..." << endl;
@@ -135,78 +137,75 @@ void loop() {
     if(debug_print) cout << "something is wrong with the task.." << endl;
   }
 
+  function<bool(const Message&)> send_message_fun = [&](const Message &message){
+    return bluetooth_server->send(message);
+  };
   while(bluetooth_server->get_next_message(incomming_message)){
-    outgoing_messages.clear();
-
     if(incomming_message.is_command("ping")){
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true, (float)incomming_message.timestamp, (float)((double)millis() / 1000.0)}));
+      send_message_fun(Message(incomming_message.command, {(float)true, (float)incomming_message.timestamp, (float)((double)millis() / 1000.0)}));
 
-    } else if(active_task != NULL && active_task->process_message(incomming_message, outgoing_messages)){
+    } else if(active_task != NULL && active_task->process_message(incomming_message, send_message_fun)){
       // The message was processed by the active task
 
     } else if(incomming_message.is_command("set_board_task_name", 0, 1)){
       string new_board_type_string = incomming_message.strings[0];
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)set_board_task_name(new_board_type_string)}));
+      send_message_fun(Message(incomming_message.command, {(float)set_board_task_name(new_board_type_string)}));
       cout << "New board type: " << get_board_task_name() << endl;
 
     } else if(incomming_message.is_command("get_board_task_name")){ 
       string type = get_board_task_name();
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true}, {type}));
+      send_message_fun(Message(incomming_message.command, {(float)true}, {type}));
 
     } else if(incomming_message.is_command("restart", 0)){
       cout << "Restarting device.. " << endl;
-      outgoing_messages.push_back(Message(incomming_message.command, {true}));
+      send_message_fun(Message(incomming_message.command, {true}));
       delay(100);
       ESP.restart();
 
     } else if(incomming_message.is_command("get_sheduler_periods_behind", 0)){
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true, (float)sheduler.total_periods_behind}));
+      send_message_fun(Message(incomming_message.command, {(float)true, (float)sheduler.total_periods_behind}));
 
     } else if(incomming_message.is_command("set_sample_frequency", 1) && 1.0f <= incomming_message.numbers[0]){
       sample_frequency = incomming_message.numbers[0];
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true, sample_frequency}));
+      send_message_fun(Message(incomming_message.command, {(float)true, sample_frequency}));
       cout << "Setting 'sample_frequency' = " << sample_frequency << endl;
 
     } else if(incomming_message.is_command("get_sample_frequency")){
-      outgoing_messages.push_back(Message(incomming_message.command, {sample_frequency}));
+      send_message_fun(Message(incomming_message.command, {sample_frequency}));
 
     } else if(incomming_message.is_command("set_send_signals_ratio", 1) && 1.0f <= incomming_message.numbers[0]){
       send_signals_ratio = incomming_message.numbers[0];
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true, (float)send_signals_ratio}));
+      send_message_fun(Message(incomming_message.command, {(float)true, (float)send_signals_ratio}));
       cout << "Setting 'send_signals_ratio' = " << send_signals_ratio << endl;
 
     } else if(incomming_message.is_command("get_send_signals_ratio")){
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)send_signals_ratio}));
+      send_message_fun(Message(incomming_message.command, {(float)send_signals_ratio}));
 
     } else if(incomming_message.is_command("set_send_signals", 1)) {
       send_signals = incomming_message.numbers[0] == (float)true;
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)true}));
+      send_message_fun(Message(incomming_message.command, {(float)true}));
       cout << "Setting 'send_signals' = " << send_signals << endl;
 
     } else if(incomming_message.is_command("get_send_signals")) {
-      outgoing_messages.push_back(Message(incomming_message.command, {(float)send_signals}));
+      send_message_fun(Message(incomming_message.command, {(float)send_signals}));
 
     } else if(incomming_message.is_command("get_lf_signal_names", 0)) {
-      outgoing_messages.push_back(Message(incomming_message.command, {}, lf_signal_names));
+      send_message_fun(Message(incomming_message.command, {}, lf_signal_names));
 
     } else if(incomming_message.is_command("get_hf_signal_names", 0)) {
-      outgoing_messages.push_back(Message(incomming_message.command, {}, hf_signal_names));
+      send_message_fun(Message(incomming_message.command, {}, hf_signal_names));
 
     } else if(incomming_message.is_command("get_task_description", 0)) {
       string task_description = "";
       if(active_task != NULL) task_description = active_task->description;
-      outgoing_messages.push_back(Message(incomming_message.command, {}, {task_description}));
+      send_message_fun(Message(incomming_message.command, {}, {task_description}));
 
     } else if(incomming_message.is_command("relay")){
-      outgoing_messages.push_back(incomming_message);
+      send_message_fun(incomming_message);
 
     } else {
-      bluetooth_server->send(Message(incomming_message.command, {(float)false}));
+      send_message_fun(Message(incomming_message.command, {(float)false}));
       incomming_message.print("Unrecognized command");
-    }
-
-    for(Message &outgoing_message : outgoing_messages){
-      bluetooth_server->send(outgoing_message);
     }
   }
 
