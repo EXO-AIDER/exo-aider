@@ -1,6 +1,0 @@
-clear all
-
-% Just add 
-BT = SppBluetoothManager;
-
-BT.add_spp_bluetooth('', '');

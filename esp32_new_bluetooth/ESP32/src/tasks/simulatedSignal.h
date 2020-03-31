@@ -6,12 +6,12 @@
 
 using namespace std;
 
-struct DemoTask : TaskInterface {
+struct simulatedSignal : TaskInterface {
 
   bool initialize(){
-    description = "Demo task";
-    low_frequency_sample_names = {};
-    high_frequency_sample_names = {};
+    description = "Simulated signal";
+    low_frequency_sample_names = {"simSineLow"};
+    high_frequency_sample_names = {"simSineHigh"};
     return true;
   }
 
@@ -54,11 +54,23 @@ struct DemoTask : TaskInterface {
     // * Closed loop motor controller
     // * Low frequency sampling of motor controller signal sampling
     // * Gyro and IMU sampling
+
+    double t = (double)millis() * 1e-3;
+    #define Pi 3.14159
+
+    low_frequency_samples.push_back(sin(2.0*Pi*t*10.0));
+
     return true; // Return false if a critical error occured; otherwise return true.
   }
   bool get_high_frequency_samples(vector<float> &high_frequency_samples, bool sending_signals){
     // What goes here:
     // * EMG signal sampling
+
+
+    double t = (double)millis() * 1e-3;
+    double y = sin(2.0*Pi*t*100.0);
+
+    high_frequency_samples.push_back(y);
     return true;
   }
 };

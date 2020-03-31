@@ -1,11 +1,11 @@
 #pragma once
 
 #include <iostream>
-#include <MPU9250.h>
 #include <SPI.h>
-#include <MAX525.h>
-#include <ADS8688.h>
 #include <Arduino.h>
+#include "./MPU9250/src/MPU9250.h"
+#include "./MAX525/MAX525.h"
+#include "./ADS8688/ADS8688.h"
 
 #include "TaskInterface.h"
 

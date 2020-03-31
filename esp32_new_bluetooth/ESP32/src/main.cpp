@@ -27,8 +27,8 @@ vector<string> potential_tasks_names;
 bool debug_print = false;
 
 void setup() {
+  cout << "this version!" << endl;
   // Open serial port
-  cout << "Version 1" << endl;
   Serial.begin(115200);
   Serial.println("");
   cout << "Initializing..." << endl;
@@ -90,24 +90,6 @@ void loop() {
     bool is_low_frequency_frame = frame % (unsigned long)send_signals_ratio == 0;
     size_t expected_post_signals_buffer_size;
 
-    // Low frequency sampling
-    if(is_low_frequency_frame){
-      expected_post_signals_buffer_size = signals_buffer.size() + 2 + active_task->low_frequency_sample_names.size();
-      // Add hedder
-      signals_buffer.push_back((float)frame);
-      signals_buffer.push_back((float)((double)millis() / 1000.0));
-
-      if(!active_task->get_low_frequency_samples(signals_buffer, sample_frequency)){
-        cout << "Error executing low frequency sample task!" << endl;
-        return;
-      }
-      if(signals_buffer.size() != expected_post_signals_buffer_size){
-        cout << "Incorrect low frequency signals buffer size! " << 
-          signals_buffer.size() << " != " << expected_post_signals_buffer_size  << endl;
-        return;
-      }
-    }
-
     // High frequency sampling
     expected_post_signals_buffer_size = signals_buffer.size() + active_task->high_frequency_sample_names.size();
     if(!active_task->get_high_frequency_samples(signals_buffer, sample_frequency)){
@@ -120,12 +102,38 @@ void loop() {
       return;
     }
 
+    // Low frequency sampling
+    if(is_low_frequency_frame){
+      int expected_pre_signals_buffer_size = active_task->high_frequency_sample_names.size() * send_signals_ratio;
+      if( signals_buffer.size() != expected_pre_signals_buffer_size)
+        cout << " Incorrect signals_buffer size pre low frequency. " << signals_buffer.size() << " != " << expected_pre_signals_buffer_size << endl;
+
+      // Add hedder
+      signals_buffer.push_back((float)frame);
+      signals_buffer.push_back((float)((double)millis() / 1000.0));
+
+      expected_post_signals_buffer_size = signals_buffer.size() + active_task->low_frequency_sample_names.size();
+      if(!active_task->get_low_frequency_samples(signals_buffer, sample_frequency)){
+        cout << "Error executing low frequency sample task!" << endl;
+        return;
+      }
+      if(signals_buffer.size() != expected_post_signals_buffer_size){
+        cout << "Incorrect low frequency signals buffer size! " << 
+          signals_buffer.size() << " != " << expected_post_signals_buffer_size  << endl;
+        return;
+      }
+    }
+
     // Send signals
     if(is_low_frequency_frame){
       if(debug_print && send_signals) cout << frame << "- E6 - send signal buffer" << endl;
 
       // * Send the signals buffer
       if(bluetooth_server->is_connected() && send_signals){
+        int expected_size = lf_signal_names.size() + send_signals_ratio * hf_signal_names.size();
+        if(expected_size != signals_buffer.size()) 
+          cout << "'signals_buffer.size()' is incorrect size: " << signals_buffer.size() << " != " << expected_size << endl;
+
         if(debug_print && send_signals) cout << frame << "- E7 - sending signal buffer" << endl;
         bluetooth_server->send(Message("sig", signals_buffer));
       }
