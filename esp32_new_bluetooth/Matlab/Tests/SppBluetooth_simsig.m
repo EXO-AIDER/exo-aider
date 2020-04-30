@@ -3,7 +3,7 @@ clear all; clc;
 disp('Connecting to devices..');
 motor_controller = [] %SppBluetooth('F4418CA4AE30@Exo-Aider', 'demo_motor_controller', 60 * 1000);
 
-left_sensor_band = SppBluetooth('F4418CA4AE30@Exo-Aider', 'demo_left_sensor_band', 60 * 1000);
+left_sensor_band = SppBluetooth('0877A9E350CC@Exo-Aider', 'demo_left_sensor_band', 60 * 1000);
 right_sensor_band = [] %SppBluetooth('74E80B12CFA4@Exo-Aider', 'demo_right_sensor_band', 60 * 1000);
 devices = [motor_controller, left_sensor_band, right_sensor_band];
 
@@ -147,7 +147,7 @@ plot(t_n, u_n);
 legend('u');
 
 %% Read sensors, move "function" into section
-my_sensor_band = SppBluetooth('F4418CA4AE30@Exo-Aider', 'my_left_sensor_band_task', 60 * 1000);
+my_sensor_band = SppBluetooth('0877A9E350CC@Exo-Aider', 'my_left_sensor_band_task', 60 * 1000);
 
     my_sensor_band.sample_frequency = 1000;
     my_sensor_band.send_signals_ratio = 40;
@@ -157,8 +157,12 @@ my_sensor_band = SppBluetooth('F4418CA4AE30@Exo-Aider', 'my_left_sensor_band_tas
     signals_got = min(my_sensor_band.signal_n);
     % my_sensor_band.send_signals = false;
     
-FSR = my_sensor_band.get_signals({'FSR1', 'FSR2'}, -9:0);
-EMG1 = my_sensor_band.get_signals('EMG1');
+FSR = my_sensor_band.get_signals({'FSR1','FSR2','FSR3','FSR4','FSR5','FSR6','FSR7','FSR8'}, -9:0);
+EMG1 = my_sensor_band.get_signals('EMG1','EMG2','EMG3','EMG4');
+IMU1 = my_sensor_band.get_signals('AccX1', 'AccY1', 'AccZ1', 'GyroX1', 'GyroY1', 'GyroZ1'); 
+IMU2 = my_sensor_band.get_signals('AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2', 'GyroZ2');
+
+
 
 %% Simulated signal test (sin()millis())
 
