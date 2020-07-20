@@ -179,7 +179,7 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
    
     if strcmp(Task.Properties.VariableNames,'FSR')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR5)); 
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR1)); 
     end
     
     if strcmp(Task.Properties.VariableNames,'EMG')
@@ -188,8 +188,8 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     
     if strcmp(Task.Properties.VariableNames,'All')
         % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR8)); 
-        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX2));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.FSR1)); 
+        % set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.GyroX1));
     end
     
    

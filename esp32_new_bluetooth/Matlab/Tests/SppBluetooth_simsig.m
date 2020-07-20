@@ -167,7 +167,7 @@ IMU2 = my_sensor_band.get_signals({'AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2'
 x = linspace(0, 60, 60000);
 
 for i = 1:1000 % plotting in 100 seconds real time
-    FSR = my_sensor_band.get_signals({'FSR1','FSR2','FSR3','FSR4','FSR5','FSR6','FSR7','FSR8'});
+    FSR = my_sensor_band.get_signals({'FSR5'}); %,'FSR2','FSR3','FSR4','FSR5','FSR6','FSR7','FSR8'});
     EMG = my_sensor_band.get_signals({'EMG1','EMG2','EMG3','EMG4'});
     IMU1 = my_sensor_band.get_signals({'AccX1', 'AccY1', 'AccZ1', 'GyroX1', 'GyroY1', 'GyroZ1'}); 
     IMU2 = my_sensor_band.get_signals({'AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2', 'GyroZ2'});
