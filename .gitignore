@@ -64,3 +64,8 @@ master.pdf
 ## Virtual environments
 venv/
 >>>>>>> 87e770684ce363496e485b97b1dd6439952de625
+*.gbr*
+*drl
+*-bak
+ESP32_BT_To_MATLAB/Data/PreviousChannelSelected.mat
+PCB/ESP32_shield/esp_shield/fp-info-cache

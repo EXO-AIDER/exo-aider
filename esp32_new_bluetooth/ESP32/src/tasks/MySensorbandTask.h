@@ -15,6 +15,8 @@ using namespace std;
 #define CS_DAC 32
 #define CS_ADC 14
 
+float SetVoltage = 0.5;
+
 struct MySensorbandTask : TaskInterface {
 
     bool is_left_sensor_band;  
@@ -67,8 +69,14 @@ struct MySensorbandTask : TaskInterface {
   }
 
   bool get_low_frequency_samples(vector<float> &low_frequency_samples, bool sending_signals){
-        _IMU1.readSensor();                                             // Read IMU 1 data 
-        _IMU2.readSensor();                                             // Read IMU 2 data
+        SetDACVoltaget(0, SetVoltage);
+        SetDACVoltaget(1, SetVoltage);
+        SetDACVoltaget(2, SetVoltage);
+        SetDACVoltaget(3, SetVoltage);
+        SetDACVoltaget(4, SetVoltage);
+        SetDACVoltaget(5, SetVoltage);
+        SetDACVoltaget(6, SetVoltage);
+        SetDACVoltaget(7, SetVoltage);
 
         /*FSR ADC is read in high frequency section */
         std::vector<float> FSR = _ADC.ReturnADC_FSR();                  // Get FSR data
@@ -76,6 +84,9 @@ struct MySensorbandTask : TaskInterface {
             low_frequency_samples.push_back(FSR[i]);                                                                                 // Reinterprets IMU data float to uint8_t data 
         } 
        
+        
+        _IMU1.readSensor();                                             // Read IMU 1 data 
+        _IMU2.readSensor();                                             // Read IMU 2 data
 
         /*IMU*/
         low_frequency_samples.push_back(_IMU1.getAccelX_mss());
