@@ -25,47 +25,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <Arduino.h>
 
 // an MPU9250 object with the MPU-9250 sensor on SPI bus 0 and chip select pin 10
-MPU9250 IMU(SPI,10);
-int status;
+MPU9250 IMU1(SPI,15);
+MPU9250 IMU2(SPI,33);
+int status1; 
+int status2;
+
+std::vector<float> low_frequency_samples;
 
 void setup() {
   // serial to display data
-  Serial.begin(9600);
+  Serial.begin(115200);
   while(!Serial) {}
 
   // start communication with IMU 
-  status = IMU.begin();
-  if (status < 0) {
+  status1 = IMU1.begin();
+  status2 = IMU2.begin();
+  if (status1 < 0) {
     Serial.println("IMU initialization unsuccessful");
     Serial.println("Check IMU wiring or try cycling power");
     Serial.print("Status: ");
-    Serial.println(status);
+    Serial.println(status1);
+    Serial.println(status2);
     while(1) {}
   }
 }
 
 void loop() {
   // read the sensor
-  IMU.readSensor();
+  IMU1.readSensor();
+  IMU2.readSensor();
+
+  low_frequency_samples.push_back(IMU1.getAccelX_mss());
+  low_frequency_samples.push_back(IMU1.getAccelY_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU1.getAccelZ_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU1.getGyroX_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU1.getGyroY_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU1.getGyroZ_rads());
+  low_frequency_samples.push_back(IMU2.getAccelX_mss());
+  low_frequency_samples.push_back(IMU2.getAccelY_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU2.getAccelZ_mss());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU2.getGyroX_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU2.getGyroY_rads());                                                                  // Reinterprets IMU data float to uint8_t data 
+  low_frequency_samples.push_back(IMU2.getGyroZ_rads());
   // display the data
-  Serial.print(IMU.getAccelX_mss(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getAccelY_mss(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getAccelZ_mss(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getGyroX_rads(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getGyroY_rads(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getGyroZ_rads(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getMagX_uT(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getMagY_uT(),6);
-  Serial.print("\t");
-  Serial.print(IMU.getMagZ_uT(),6);
-  Serial.print("\t");
-  Serial.println(IMU.getTemperature_C(),6);
+
+  for(int i = 0; i < low_frequency_samples.size(); i++)
+  {
+    Serial.println(low_frequency_samples[i], 6);
+  }
+  
   delay(100);
 }

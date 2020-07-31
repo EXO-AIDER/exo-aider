@@ -147,6 +147,7 @@ plot(t_n, u_n);
 legend('u');
 
 %% Read sensors, move "function" into section
+clear;
 my_sensor_band = SppBluetooth('0877A9E350CC@Exo-Aider', 'my_left_sensor_band_task', 60 * 1000); % buffer size at the end
 
     my_sensor_band.sample_frequency = 1000;
@@ -179,7 +180,7 @@ for i = 1:1000 % plotting in 100 seconds real time
     IMU1 = my_sensor_band.get_signals({'AccX1', 'AccY1', 'AccZ1', 'GyroX1', 'GyroY1', 'GyroZ1'}); 
     IMU2 = my_sensor_band.get_signals({'AccX2', 'AccY2', 'AccZ2', 'GyroX2', 'GyroY2', 'GyroZ2'});
     
-    plot(x+i*0.1, IMU2);
+    plot(x+i*0.1, IMU1);
     xlabel('Seconds')
     
     pause(0.01);
