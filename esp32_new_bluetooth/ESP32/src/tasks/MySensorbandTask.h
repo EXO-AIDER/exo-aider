@@ -15,7 +15,7 @@ using namespace std;
 #define CS_DAC 32
 #define CS_ADC 14
 
-float SetVoltage = 0.0;
+float SetVoltage = 0.5;
 
 MPU9250FIFO _IMU1(SPI, CS_IMU1);
 MPU9250FIFO _IMU2(SPI, CS_IMU2);

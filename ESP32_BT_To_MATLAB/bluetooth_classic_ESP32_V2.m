@@ -183,7 +183,7 @@ if DataTrack - 1 > print200 && StopPlot == 0   % Slow down the graph update spee
     end
     
     if strcmp(Task.Properties.VariableNames,'EMG')
-        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG1));
+        set(DataPlot,'XData',PlotCount:DataTrack - 1,'YData',Data(PlotCount:DataTrack - 1,VarName.EMG3));
     end
     
     if strcmp(Task.Properties.VariableNames,'All')
